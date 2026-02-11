@@ -1,6 +1,9 @@
 // English Podcast Learning Platform - Frontend Logic
 
 // Podcast Data Configuration
+// Note: All paths include the repository name "english-podcast-learning" for GitHub Pages deployment
+const REPO_NAME = "english-podcast-learning";
+
 const podcasts = [
     {
         id: "2025-epidemiology-research",
@@ -12,9 +15,9 @@ const podcasts = [
         difficulty: "中级",
         date: "2026-02-11",
         files: {
-            audio: "2025_Epidemiology_Research/audio/podcast.mp3",
-            script: "2025_Epidemiology_Research/docs/script.md",
-            notes: "2025_Epidemiology_Research/docs/notes.md"
+            audio: REPO_NAME + "/2025_Epidemiology_Research/audio/podcast.mp3",
+            script: REPO_NAME + "/2025_Epidemiology_Research/docs/script.md",
+            notes: REPO_NAME + "/2025_Epidemiology_Research/docs/notes.md"
         }
     }
 ];
