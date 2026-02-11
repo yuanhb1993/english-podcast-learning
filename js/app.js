@@ -1,8 +1,6 @@
-const REPO_NAME = "english-podcast-learning";
 // English Podcast Learning Platform - Frontend Logic
 
 // Podcast Data Configuration
-// Note: All paths include the repository name "english-podcast-learning" for GitHub Pages deployment
 const REPO_NAME = "english-podcast-learning";
 
 const podcasts = [
@@ -16,15 +14,9 @@ const podcasts = [
         difficulty: "中级",
         date: "2026-02-11",
         files: {
-<<<<<<< HEAD
             audio: REPO_NAME + "/2025_Epidemiology_Research/audio/podcast.mp3",
             script: REPO_NAME + "/2025_Epidemiology_Research/docs/script.md",
             notes: REPO_NAME + "/2025_Epidemiology_Research/docs/notes.md"
-=======
-    audio: REPO_NAME + "/2025_Epidemiology_Research/audio/podcast.mp3",
-    script: REPO_NAME + "/2025_Epidemiology_Research/docs/script.md",
-    notes: REPO_NAME + "/2025_Epidemiology_Research/docs/notes.md"
->>>>>>> 185f72d52c72ffbc0a7b7c4ba5933aae98192469
         }
     }
 ];
@@ -62,21 +54,14 @@ function renderHomePage() {
     const container = document.getElementById('podcast-grid');
     if (!container) return;
     
-    // Group podcasts by category
-    const categories = {
-        research: { title: "Research & Studies", podcasts: [] },
-        general: { title: "General English", podcasts: [] },
-        business: { title: "Business English", podcasts: [] }
-    };
-    
-    podcasts.forEach(podcast => {
-        if (categories[podcast.category]) {
-            categories[podcast.category].podcasts.push(podcast);
-        }
-    });
-    
     // Render podcast grid
     container.innerHTML = podcasts.map(podcast => createPodcastCard(podcast)).join('');
+    
+    // Update count
+    const countEl = document.getElementById('podcast-count');
+    if (countEl) {
+        countEl.textContent = podcasts.length + ' 个播客';
+    }
 }
 
 // Create podcast card HTML
@@ -102,7 +87,7 @@ function createPodcastCard(podcast) {
                     <span>⏱️ ${podcast.duration}</span>
                 </div>
                 <div class="card-tags">
-                    <span class="tag">${categoryLabels[podcast.category]}</span>
+                    <span class="tag">${categoryLabels[podcast.category] || podcast.category}</span>
                     <span class="tag duration">${podcast.difficulty}</span>
                 </div>
             </div>
@@ -146,19 +131,18 @@ function renderAudioPlayer(podcast) {
     const container = document.getElementById('audio-player');
     if (!container) return;
     
-    container.innerHTML = `
-        <div class="player-info">
-            <div class="player-icon">🎙️</div>
-            <div class="player-details">
-                <h2>${podcast.title}</h2>
-                <p>${podcast.titleEn} • ${podcast.date} • ${podcast.duration}</p>
-            </div>
-        </div>
-        <audio controls preload="metadata">
-            <source src="${podcast.files.audio}" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-    `;
+    // Update title and meta if elements exist
+    const titleEl = document.getElementById('episode-title');
+    const metaEl = document.getElementById('episode-meta');
+    
+    if (titleEl) titleEl.textContent = podcast.title;
+    if (metaEl) metaEl.textContent = `${podcast.titleEn} • ${podcast.date} • ${podcast.duration}`;
+    
+    // Update audio source
+    const audioEl = document.getElementById('audio-element');
+    if (audioEl) {
+        audioEl.src = podcast.files.audio;
+    }
 }
 
 // Load markdown content
@@ -236,14 +220,16 @@ function setupDownloadButtons(podcast) {
     }
     
     if (notesBtn) {
-        scriptBtn.href = podcast.files.notes;
-        scriptBtn.download = `${podcast.id}_notes.md`;
+        notesBtn.href = podcast.files.notes;
+        notesBtn.download = `${podcast.id}_notes.md`;
     }
 }
 
 // Show error message
 function showError(message) {
     const container = document.querySelector('.container');
+    if (!container) return;
+    
     container.innerHTML = `
         <div class="empty-state">
             <div class="empty-state-icon">⚠️</div>
