@@ -1,3 +1,4 @@
+const REPO_NAME = "english-podcast-learning";
 // English Podcast Learning Platform - Frontend Logic
 
 // Podcast Data Configuration
@@ -15,9 +16,15 @@ const podcasts = [
         difficulty: "中级",
         date: "2026-02-11",
         files: {
+<<<<<<< HEAD
             audio: REPO_NAME + "/2025_Epidemiology_Research/audio/podcast.mp3",
             script: REPO_NAME + "/2025_Epidemiology_Research/docs/script.md",
             notes: REPO_NAME + "/2025_Epidemiology_Research/docs/notes.md"
+=======
+    audio: REPO_NAME + "/2025_Epidemiology_Research/audio/podcast.mp3",
+    script: REPO_NAME + "/2025_Epidemiology_Research/docs/script.md",
+    notes: REPO_NAME + "/2025_Epidemiology_Research/docs/notes.md"
+>>>>>>> 185f72d52c72ffbc0a7b7c4ba5933aae98192469
         }
     }
 ];
