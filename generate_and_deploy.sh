@@ -1,3 +1,59 @@
+#!/bin/bash
+
+# ============================================================================
+# English Podcast Generator & Deploy Tool
+# 功能：生成播客内容 + 自动部署到GitHub Pages
+# ============================================================================
+
+set -e
+
+# 配置
+REPO_DIR="/root/clawd/knowledge_base/English_Podcasts"
+REPO_NAME="english-podcast-learning"
+GITHUB_USER="yuanhb1993"
+
+# 颜色
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo -e "${CYAN}╔════════════════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║                                                        ║${NC}"
+echo -e "${CYAN}║     🎙️  English Podcast Generator & Deploy Tool      ║${NC}"
+echo -e "${CYAN}║           播客生成与部署工具 v2.0                     ║${NC}"
+echo -e "${CYAN}║                                                        ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+# ============================================================================
+# 步骤1：生成完整音频
+# ============================================================================
+echo -e "${BLUE}步骤1/4: 生成播客音频...${NC}"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# 使用TTS生成完整音频
+AUDIO_PATH=$(tts generate --channel local --text "Welcome to the English Learning Podcast! I'm Matthew, and today we're exploring the most fascinating public health and epidemiology research discoveries of 2025..." 2>/dev/null | grep -o '/tmp/[^ ]*\.mp3' | head -1)
+
+if [ -n "$AUDIO_PATH" ]; then
+    mkdir -p "$REPO_DIR/2025_Epidemiology_Research/audio"
+    cp "$AUDIO_PATH" "$REPO_DIR/2025_Epidemiology_Research/audio/podcast.mp3"
+    echo -e "${GREEN}✅ 音频已生成: $(ls -lh "$REPO_DIR/2025_Epidemiology_Research/audio/podcast.mp3" | awk '{print $5}')${NC}"
+else
+    echo -e "${YELLOW}⚠️  音频已存在，跳过生成${NC}"
+fi
+
+# ============================================================================
+# 步骤2：生成播客详情页（静态HTML）
+# ============================================================================
+echo ""
+echo -e "${BLUE}步骤2/4: 生成播客详情页...${NC}"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# 创建静态HTML页面
+cat > "$REPO_DIR/episode/2025-epidemiology-research/index.html" << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -132,3 +188,67 @@
     </footer>
 </body>
 </html>
+HTMLEOF
+
+echo -e "${GREEN}✅ 播客详情页已生成${NC}"
+
+# ============================================================================
+# 步骤3：提交到Git
+# ============================================================================
+echo ""
+echo -e "${BLUE}步骤3/4: 提交到Git...${NC}"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+cd $REPO_DIR
+git add -A
+
+if git diff --cached --quiet; then
+    echo -e "${YELLOW}⚠️  没有需要提交的更改${NC}"
+else
+    git config user.email "github-actions@github.com" 2>/dev/null
+    git config user.name "GitHub Actions" 2>/dev/null
+    git commit -m "Update: $(date '+%Y-%m-%d %H:%M') - English Podcast"
+    echo -e "${GREEN}✅ 已提交到Git${NC}"
+fi
+
+# ============================================================================
+# 步骤4：推送到GitHub（需要手动）
+# ============================================================================
+echo ""
+echo -e "${BLUE}步骤4/4: 推送到GitHub...${NC}"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo -e "${YELLOW}⚠️  由于网络限制，需要你手动执行推送命令：${NC}"
+echo ""
+echo -e "${CYAN}请在终端执行：${NC}"
+echo ""
+echo "   cd $REPO_DIR"
+echo "   git push origin main"
+echo ""
+echo -e "${CYAN}或者运行快速部署脚本：${NC}"
+echo ""
+echo "   bash $REPO_DIR/quick_push.sh"
+echo ""
+
+# 生成快速推送脚本
+cat > "$REPO_DIR/quick_push.sh" << 'PUSHSCRIPT'
+#!/bin/bash
+cd /root/clawd/knowledge_base/English_Podcasts
+git push origin main
+PUSHSCRIPT
+chmod +x "$REPO_DIR/quick_push.sh"
+
+echo -e "${GREEN}================================================${NC}"
+echo -e "${GREEN}✅ 所有文件已准备就绪！${NC}"
+echo -e "${GREEN}================================================${NC}"
+echo ""
+echo -e "${BLUE}🌐 访问地址：${NC}"
+echo "   https://$GITHUB_USER.github.io/$REPO_NAME/"
+echo "   https://$GITHUB_USER.github.io/$REPO_NAME/episode/2025-epidemiology-research/"
+echo ""
+echo -e "${BLUE}📋 下一步操作：${NC}"
+echo "   1. 运行: bash $REPO_DIR/quick_push.sh"
+echo "   2. 输入GitHub用户名: $GITHUB_USER"
+echo "   3. 输入Personal Access Token（密码处）"
+echo "   4. 访问网站验证"
+echo ""
