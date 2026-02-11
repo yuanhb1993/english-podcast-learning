@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Learning Podcast - 英语播客学习平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎙️</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="./" class="logo">
+                <span class="logo-icon">🎙️</span>
+                <span class="logo-text">English Learning Podcast</span>
+            </a>
+            <nav class="nav">
+                <a href="./">首页</a>
+                <a href="#podcasts">播客</a>
+                <a href="#about">关于</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>🎧 英语播客学习平台</h1>
+            <p>
+                通过播客学习公共卫生和流行病学英语。<br>
+                包含音频、脚本和学习笔记，提升你的专业英语能力。
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Podcast List Section -->
+        <section class="section" id="podcasts">
+            <div class="section-header">
+                <h2 class="section-title">📚 最新播客</h2>
+                <span class="text-secondary" id="podcast-count">0 个播客</span>
+            </div>
+            
+            <!-- Podcast Grid -->
+            <div class="podcast-grid" id="podcast-grid">
+                <!-- Podcasts will be rendered here by JavaScript -->
+            </div>
+            
+            <!-- Empty State (shown when no podcasts) -->
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <div class="empty-state-icon">📭</div>
+                <h3>暂无播客</h3>
+                <p>还没有添加播客内容，请稍后再来。</p>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section" id="about">
+            <div class="section-header">
+                <h2 class="section-title">✨ 平台特点</h2>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                <div style="padding: 24px; border: 1px solid var(--color-border); border-radius: 8px;">
+                    <h3 style="font-size: 16px; margin-bottom: 12px;">🎵 高质量音频</h3>
+                    <p class="text-secondary" style="font-size: 14px;">专业录制的播客音频，支持在线播放和下载。</p>
+                </div>
+                
+                <div style="padding: 24px; border: 1px solid var(--color-border); border-radius: 8px;">
+                    <h3 style="font-size: 16px; margin-bottom: 12px;">📖 完整学习材料</h3>
+                    <p class="text-secondary" style="font-size: 14px;">每期播客配有完整脚本和学习笔记，助力英语学习。</p>
+                </div>
+                
+                <div style="padding: 24px; border: 1px solid var(--color-border); border-radius: 8px;">
+                    <h3 style="font-size: 16px; margin-bottom: 12px;">🔬 专业内容</h3>
+                    <p class="text-secondary" style="font-size: 14px;">聚焦公共卫生和流行病学领域，提升专业英语能力。</p>
+                </div>
+                
+                <div style="padding: 24px; border: 1px solid var(--color-border); border-radius: 8px;">
+                    <h3 style="font-size: 16px; margin-bottom: 12px;">📱 随时随地学习</h3>
+                    <p class="text-secondary" style="font-size: 14px;">支持桌面和移动设备，离线下载随时学习。</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>🎙️ English Learning Podcast - 英语播客学习平台</p>
+            <p class="text-secondary mt-8" style="font-size: 12px;">
+                Built with OpenClaw AI Assistant<br>
+                Generated with English Learning Podcast Generator Skill
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Update podcast count
+        document.addEventListener('DOMContentLoaded', function() {
+            const count = document.querySelectorAll('.podcast-card').length;
+            document.getElementById('podcast-count').textContent = count + ' 个播客';
+            
+            // Show empty state if no podcasts
+            if (count === 0) {
+                document.getElementById('empty-state').style.display = 'block';
+                document.getElementById('podcast-grid').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

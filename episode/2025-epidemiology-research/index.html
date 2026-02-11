@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加载中... - English Learning Podcast</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎙️</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="../" class="logo">
+                <span class="logo-icon">🎙️</span>
+                <span class="logo-text">English Learning Podcast</span>
+            </a>
+            <nav class="nav">
+                <a href="../">首页</a>
+                <a href="../#podcasts">播客</a>
+                <a href="../#about">关于</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 32px;">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+            <a href="../">首页</a>
+            <span>/</span>
+            <span id="breadcrumb-title">加载中...</span>
+        </nav>
+
+        <!-- Audio Player -->
+        <section id="audio-player">
+            <div class="audio-player">
+                <div class="player-info">
+                    <div class="player-icon">🎙️</div>
+                    <div class="player-details">
+                        <h2 id="episode-title">加载中...</h2>
+                        <p id="episode-meta">请稍候...</p>
+                    </div>
+                </div>
+                <audio id="audio-element" controls preload="metadata">
+                    <source src="" type="audio/mpeg">
+                    您的浏览器不支持音频播放。
+                </audio>
+            </div>
+        </section>
+
+        <!-- Download Buttons -->
+        <section style="margin-bottom: 32px;">
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <a id="download-audio" href="#" class="btn btn-primary" download>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    下载音频 (MP3)
+                </a>
+                <a id="download-script" href="#" class="btn" download>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                    下载脚本 (MD)
+                </a>
+                <a id="download-notes" href="#" class="btn" download>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    下载笔记 (MD)
+                </a>
+            </div>
+        </section>
+
+        <!-- Content Tabs -->
+        <section class="content-section">
+            <div class="content-header">
+                <h2 class="content-title">📖 播客脚本</h2>
+            </div>
+            <div class="content-body" id="script-content">
+                <p class="text-secondary">加载中...</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="content-header">
+                <h2 class="content-title">📚 学习笔记</h2>
+            </div>
+            <div class="content-body" id="notes-content">
+                <p class="text-secondary">加载中...</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>🎙️ English Learning Podcast - 英语播客学习平台</p>
+            <p class="text-secondary mt-8" style="font-size: 12px;">
+                Built with OpenClaw AI Assistant<br>
+                Generated with English Learning Podcast Generator Skill
+            </p>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // This page is loaded when accessing episode detail
+        // The main logic is handled by ../js/app.js
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Override getCurrentPage to return 'detail'
+            window.getCurrentPage = function() {
+                return 'detail';
+            };
+            
+            // Load podcast data and render
+            const episodeId = getEpisodeIdFromUrl();
+            const podcast = getPodcastById(episodeId);
+            
+            if (!podcast) {
+                showError('播客未找到');
+                return;
+            }
+            
+            // Update breadcrumb
+            document.getElementById('breadcrumb-title').textContent = podcast.title;
+            
+            // Update page title
+            document.title = `${podcast.title} - English Learning Podcast`;
+            
+            // Update audio player info
+            document.getElementById('episode-title').textContent = podcast.title;
+            document.getElementById('episode-meta').textContent = 
+                `${podcast.titleEn} • ${podcast.date} • ${podcast.duration}`;
+            
+            // Update audio source
+            document.getElementById('audio-element').src = podcast.files.audio;
+            
+            // Update download buttons
+            document.getElementById('download-audio').href = podcast.files.audio;
+            document.getElementById('download-audio').download = `${podcast.id}_podcast.mp3`;
+            
+            document.getElementById('download-script').href = podcast.files.script;
+            document.getElementById('download-script').download = `${podcast.id}_script.md`;
+            
+            document.getElementById('download-notes').href = podcast.files.notes;
+            document.getElementById('download-notes').download = `${podcast.id}_notes.md`;
+            
+            // Load markdown content
+            loadMarkdownContent(podcast.files.script, 'script-content');
+            loadMarkdownContent(podcast.files.notes, 'notes-content');
+        });
+    </script>
+</body>
+</html>
