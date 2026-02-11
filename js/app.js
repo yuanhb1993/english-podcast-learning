@@ -1,3 +1,4 @@
+const REPO_NAME = "english-podcast-learning";
 // English Podcast Learning Platform - Frontend Logic
 
 // Podcast Data Configuration
