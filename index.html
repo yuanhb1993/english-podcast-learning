@@ -40,19 +40,31 @@
         <section class="section" id="podcasts">
             <div class="section-header">
                 <h2 class="section-title">📚 最新播客</h2>
-                <span class="text-secondary" id="podcast-count">0 个播客</span>
+                <span class="text-secondary" id="podcast-count">1 个播客</span>
             </div>
             
-            <!-- Podcast Grid -->
-            <div class="podcast-grid" id="podcast-grid">
-                <!-- Podcasts will be rendered here by JavaScript -->
-            </div>
-            
-            <!-- Empty State (shown when no podcasts) -->
-            <div class="empty-state" id="empty-state" style="display: none;">
-                <div class="empty-state-icon">📭</div>
-                <h3>暂无播客</h3>
-                <p>还没有添加播客内容，请稍后再来。</p>
+            <!-- Podcast Grid (Hardcoded for reliability) -->
+            <div class="podcast-grid">
+                <!-- Podcast 1 -->
+                <a href="episode/2025-epidemiology-research/" class="podcast-card">
+                    <div class="card-image">
+                        <span class="card-image-icon">🎙️</span>
+                        <div class="play-overlay">
+                            <div class="play-button"></div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">2025年公共卫生流行病学研究近况</h3>
+                        <div class="card-meta">
+                            <span>📅 2026-02-11</span>
+                            <span>⏱️ 15分钟</span>
+                        </div>
+                        <div class="card-tags">
+                            <span class="tag">🔬 研究</span>
+                            <span class="tag duration">中级</span>
+                        </div>
+                    </div>
+                </a>
             </div>
         </section>
 
@@ -98,18 +110,5 @@
     </footer>
 
     <script src="js/app.js"></script>
-    <script>
-        // Update podcast count
-        document.addEventListener('DOMContentLoaded', function() {
-            const count = document.querySelectorAll('.podcast-card').length;
-            document.getElementById('podcast-count').textContent = count + ' 个播客';
-            
-            // Show empty state if no podcasts
-            if (count === 0) {
-                document.getElementById('empty-state').style.display = 'block';
-                document.getElementById('podcast-grid').style.display = 'none';
-            }
-        });
-    </script>
 </body>
 </html>
